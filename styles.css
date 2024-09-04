@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 49px 30px; /* Increased padding for a larger navbar */
+    background-color: #353535;
+    position: relative;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 60px;
+    
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo h1 {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.logo-icon img {
+    width: 90px; /* Adjusted the size of the icon */
+    height: 90px;
+}
+
+.title {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 22px;
+}
+
+.title h2 {
+    font-size: 49px; /* Increased font size */
+    color: #ffffff;
+}
+
+.settings {
+    position: absolute;
+    right: 30px; /* Adjusted for increased padding */
+}
+
+.settings img, .settings i {
+    width: 24px;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px;
+    margin-bottom: 56px;
+}
+
+.box {
+    background-color: #353535;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+   size: 1000px;
+}
+
+.box:hover {
+    background-color: #444;
+}
+
+.box img {
+    width: 50px;
+    margin-bottom: 10px;
+}
+
+.box h3 {
+    font-size: 16px;
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    background-color: #353535;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-item {
+    text-align: center;
+    color: #ccc;
+}
+
+.nav-item i {
+    width: 210px;
+    margin-bottom: 5px;
+    font-size: 30px;
+    position: relative;
+    
+}
+
+.nav-item p {
+    font-size: 14px;
+}
