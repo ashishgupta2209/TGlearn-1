@@ -1,29 +1,72 @@
-
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
+
 body {
     background-color: #1a1a1a;
     color: #ffffff;
     padding-top: 170px;
     font-family: 'Montserrat', sans-serif;
-    
+
 }
+
+/* Bottom navbar styling starts here */
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    background-color: #353535;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.nav-item {
+    text-align: center;
+    color: #ccc;
+}
+
+.nav-item i {
+
+    margin-bottom: 5px;
+    font-size: 16px;
+    position: relative;
+    padding: 6px 22px;
+
+}
+
+.nav-item p {
+    font-size: 14px;
+}
+
+.nav-item.selected i {
+    background-color: rgb(134, 134, 134);
+    border-radius: 18px;
+
+}
+
+/* Bottom navbar styling ends here */
+
+/* upper navbar stylish starts here */
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 43px 30px; /* Increased padding for a larger navbar */
+    padding: 43px 30px;
+    /* Increased padding for a larger navbar */
     background-color: #353535;
     position: fixed;
-    width: 100%;  /* Make sure navbar spans the entire width */
-    top: 0;       /* Fix navbar to the top */
-    z-index: 999; /* Ensure navbar stays on top of other content */
+    width: 100%;
+    /* Make sure navbar spans the entire width */
+    top: 0;
+    /* Fix navbar to the top */
+    z-index: 999;
+    /* Ensure navbar stays on top of other content */
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 60px;
 }
@@ -40,7 +83,8 @@ body {
 }
 
 .logo-icon img {
-    width: 65px; /* Adjusted the size of the icon */
+    width: 65px;
+    /* Adjusted the size of the icon */
     height: 65px;
 }
 
@@ -51,20 +95,27 @@ body {
 }
 
 .title h2 {
-    font-size: 2rem; /* Increased font size */
+    font-size: 2rem;
+    /* Increased font size */
     color: #ffffff;
 }
 
 .settings {
     position: absolute;
-    right: 30px; /* Adjusted for increased padding */
+    right: 30px;
+    /* Adjusted for increased padding */
 }
 
-.settings img, .settings i {
+.settings img,
+.settings i {
     width: 24px;
     font-size: 1.6rem;
     cursor: pointer;
 }
+
+/* upper navbar stylish ends here */
+
+/* main starts here */
 
 .content {
     display: grid;
@@ -84,51 +135,29 @@ body {
     height: 160px;
     margin: 4px;
 
-    display: flex;                /* Flexbox for centering */
-    flex-direction: column;       /* Stack items vertically */
-    align-items: center;          /* Horizontally center items */
-    justify-content: center;      /* Vertically center items */
+    display: flex;
+    /* Flexbox for centering */
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    /* Horizontally center items */
+    justify-content: center;
+    /* Vertically center items */
 }
 
 .box:hover {
     background-color: #2b2b2b;
 }
+
 .box img {
     width: 100px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 .box h3 {
     font-size: 1rem;
-    margin: 0;    /* Remove default margin */
+    margin: 0;
+    /* Remove default margin */
     font-weight: 600;
     color: #ccc;
-}
-
-
-.bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    background-color: #353535;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-.nav-item {
-    text-align: center;
-    color: #ccc;
-}
-
-.nav-item i {
-    
-    margin-bottom: 5px;
-    font-size: 20px;
-    position: relative;
-    
-}
-
-.nav-item p {
-    font-size: 14px;
 }
