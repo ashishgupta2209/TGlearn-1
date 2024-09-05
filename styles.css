@@ -1,25 +1,31 @@
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
-
 body {
     background-color: #1a1a1a;
     color: #ffffff;
+    padding-top: 170px;
+    font-family: 'Montserrat', sans-serif;
+    
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 49px 30px; /* Increased padding for a larger navbar */
+    padding: 43px 30px; /* Increased padding for a larger navbar */
     background-color: #353535;
-    position: relative;
+    position: fixed;
+    width: 100%;  /* Make sure navbar spans the entire width */
+    top: 0;       /* Fix navbar to the top */
+    z-index: 999; /* Ensure navbar stays on top of other content */
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 60px;
-    
 }
 
 .logo {
@@ -34,18 +40,18 @@ body {
 }
 
 .logo-icon img {
-    width: 90px; /* Adjusted the size of the icon */
-    height: 90px;
+    width: 65px; /* Adjusted the size of the icon */
+    height: 65px;
 }
 
 .title {
     flex-grow: 1;
     text-align: left;
-    margin-left: 22px;
+    margin-left: 12px;
 }
 
 .title h2 {
-    font-size: 49px; /* Increased font size */
+    font-size: 2rem; /* Increased font size */
     color: #ffffff;
 }
 
@@ -71,10 +77,17 @@ body {
 .box {
     background-color: #353535;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 17px;
     text-align: center;
+    justify-content: center;
     transition: background-color 0.3s ease;
-   size: 1000px;
+    height: 160px;
+    margin: 4px;
+
+    display: flex;                /* Flexbox for centering */
+    flex-direction: column;       /* Stack items vertically */
+    align-items: center;          /* Horizontally center items */
+    justify-content: center;      /* Vertically center items */
 }
 
 .box:hover {
@@ -82,13 +95,17 @@ body {
 }
 
 .box img {
-    width: 50px;
-    margin-bottom: 10px;
+    width: 100px;
+    margin-bottom: 10px; 
 }
 
 .box h3 {
-    font-size: 16px;
+    font-size: 1rem;
+    margin: 0;    /* Remove default margin */
+    font-weight: 600;
+    color: #ccc;
 }
+
 
 .bottom-nav {
     display: flex;
@@ -106,9 +123,9 @@ body {
 }
 
 .nav-item i {
-    width: 210px;
+    
     margin-bottom: 5px;
-    font-size: 30px;
+    font-size: 20px;
     position: relative;
     
 }
