@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Using the same stylesheet as home.html -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header with back button and 'Subjects' title -->
+    <nav class="navbar">
+        <div class="back-button" onclick="window.location.href='home.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass);">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="title">
+            <h2>Subjects</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content: Subjects List -->
+    <section class="content">
+        <div id="subjectContainer" class="subjects-grid"></div>
+    </section>
+
+    <!-- Bottom Navbar -->
+    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->
+
+    <!-- Script for handling navbar and dynamic class name -->
+    <script src="script.js"></script>
+
+    <script>
+        // Get board, class, and type from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const board = urlParams.get('board');
+        const userClass = urlParams.get('class');
+        const type = urlParams.get('type');
+
+        // Set up the back button functionality
+        document.querySelector('.back-button').onclick = function() {
+            window.location.href = `home.html?board=${board}&class=${userClass}`;
+        };
+
+        // Fetch the subjects from the CSV file
+        fetch(`subjects_${board}_${userClass}.csv`)
+            .then(response => response.text())
+            .then(csvData => {
+                const rows = csvData.split('\n');
+                const subjectContainer = document.getElementById('subjectContainer');
+
+                rows.forEach(row => {
+                    const [subject, img] = row.split(',');
+                    if (subject && img) {
+                        const subjectBox = document.createElement('div');
+                        subjectBox.classList.add('box'); // Reuse the 'box' class from home.html
+                        subjectBox.innerHTML = `
+                            <img src="${img.trim()}" alt="${subject.trim()}" style="width: 100px; height: 100px;">
+                            <h3>${subject.trim()}</h3>
+                        `;
+                        subjectBox.onclick = function() {
+                            window.location.href = `chapter.html?board=${board}&class=${userClass}&subject=${subject.trim()}&type=${type}`;
+                        };
+                        subjectContainer.appendChild(subjectBox);
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading subjects:', error));
+    </script>
+
+</body>
+</html>

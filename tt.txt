@@ -1,40 +1,364 @@
-// bottom navbar for changing selected pages
+how can i do that my bottom navabar will be constant on all pages and home selected when i am on index.html and lessons selected when i am on any page other than that index one and i can go on index page with selecting home and in lessons if i am not gone to any page yet it i will show nothing seclected and suppose when i went to any other page and back to home and again back to that lessons so the page will there which i visited last if i have not gone any other page from home.
+understand it like that i am making this website for app
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Load the navbar dynamically
-  fetch('navbar.html')
-      .then(response => response.text())
-      .then(data => {
-          document.getElementById('bottom-navbar').innerHTML = data;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>GLearn</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="logo-icon">
+            <img src="img/logo.png" alt="App Logo">
+        </div>
+        <div class="title">
+            <h2>Glearn <br /><span id="className"></span></h2>
+        </div>
+        <div class="settings">
+            <i class="fa-solid fa-gear"></i>
+        </div>
+    </nav>
 
-          // Add event listeners to handle navigation clicks
-          document.getElementById('home').addEventListener('click', function () {
-              window.location.href = 'index.html';
-              localStorage.setItem('lastPage', 'home');
-          });
+    <!-- Main Content -->
+    <section class="content">
+        <div class="box">
+            <img src="img/choose-topic.png" alt="MCQs">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=mcqs">MCQs</a></h3>
+        </div>
+        <div class="box">
+            <img src="img/idea.png" alt="Solutions">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=solutions">Solutions</a></h3>
+        </div>
+        <div class="box">
+            <img src="img/quiz.png" alt="Quiz">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=quiz">Quiz</a></h3>
+        </div>
+        <a href="subject.html?board=<BOARD>&class=<CLASS>&type=notes">
+            <div class="box">
+                <img src="img/notes-icon.png" alt="Notes" style="margin-right: 12px;">
+                <h3>Notes</h3>
+            </div>
+        </a>
+        <div class="box">
+            <img src="img/book.png" alt="Books">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=books">Books</a></h3>
+        </div>
+        <a href="subject.html?board=<BOARD>&class=<CLASS>&type=contact">
+            <div class="box">
+                <img src="img/contact-icon.png" alt="Contact">
+                <h3>Contact</h3>
+            </div>
+        </a>
+    </section>
 
-          document.getElementById('lessons').addEventListener('click', function () {
-              const lastLessonPage = localStorage.getItem('lastLessonPage');
-              if (lastLessonPage) {
-                  window.location.href = lastLessonPage;
-              } else {
-                  window.location.href = 'lessons.html';
-              }
-              localStorage.setItem('lastPage', 'lessons');
-          });
+    <!-- Bottom Navbar -->
+    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->
 
-          // Get the current page URL
-          const currentPage = window.location.pathname.split('/').pop();  // Get the current file name (e.g., index.html)
+    <!-- Script for handling navbar and dynamic class name -->
+    <script src="script.js"></script>
+</body>
+</html>
 
-          // If on index.html, select home, otherwise select lessons
-          if (currentPage === 'index.html' || currentPage === '') {
-              document.getElementById('home').classList.add('selected');
-          } else {
-              document.getElementById('lessons').classList.add('selected');
-              localStorage.setItem('lastPage', 'lessons');  // Track that the last visited page is lessons
-              localStorage.setItem('lastLessonPage', currentPage);  // Track the current lesson page
-          }
-      });
-});
+intex.html
 
-// bottom navbar for changing selected pages end
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLearn - Select Board and Class</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Main content area */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Bottom navbar */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+            border-top-left-radius: 27px;
+            border-top-right-radius: 27px;
+            gap: 10px;
+        }
+
+        .navbar select,
+        .navbar button {
+            padding: 10px;
+            font-size: 16px;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .navbar select {
+            color: black;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .navbar button {
+            background-color: #0f94bd;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .navbar button:hover {
+            background-color: #046b8a;
+        }
+
+        #board, #class {
+            border-radius: 18px !important;
+        }
+
+        #alertBox {
+            display: none;
+            color: red;
+            margin-bottom: -2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main content -->
+    <div class="content">
+        <!-- Intentionally blank -->
+    </div>
+
+    <!-- Bottom navbar -->
+    <div class="navbar">
+        <p id="alertBox">Please Select Both!</p>
+
+        <!-- Dropdown for choosing board -->
+        <select name="board" id="board">
+            <option value="" disabled selected>Select your board</option>
+            <option value="cbse">CBSE</option>
+            <option value="bseb">BSEB</option>
+        </select>
+
+        <!-- Dropdown for choosing class -->
+        <select name="class" id="class">
+            <option value="" disabled selected>Select your class</option>
+            <option value="10">Class 10</option>
+            <option value="12">Class 12</option>
+        </select>
+
+        <hr style="width: 90%; max-width: 320px; background-color: #ffffff; opacity: 0.7;">
+
+        <!-- Let's Go button -->
+        <button type="button" id="goBtn">Let's Go →</button>
+    </div>
+
+    <script>
+        document.getElementById('goBtn').addEventListener('click', function () {
+            const selBoard = document.getElementById('board').value;
+            const selClass = document.getElementById('class').value;
+
+            if (selBoard && selClass) {
+                // Redirect to home.html with board and class in URL params
+                window.location.href = `home.html?board=${selBoard}&class=${selClass}`;
+            } else {
+                document.getElementById("alertBox").style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+home.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>GLearn</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="logo-icon">
+            <img src="img/logo.png" alt="App Logo">
+        </div>
+        <div class="title">
+            <h2>Glearn <br /><span id="className"></span></h2>
+        </div>
+        <div class="settings">
+            <i class="fa-solid fa-gear"></i>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="box">
+            <img src="img/choose-topic.png" alt="MCQs">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=mcqs">MCQs</a></h3>
+        </div>
+        <div class="box">
+            <img src="img/idea.png" alt="Solutions">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=solutions">Solutions</a></h3>
+        </div>
+        <div class="box">
+            <img src="img/quiz.png" alt="Quiz">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=quiz">Quiz</a></h3>
+        </div>
+        <a href="subject.html?board=<BOARD>&class=<CLASS>&type=notes">
+            <div class="box">
+                <img src="img/notes-icon.png" alt="Notes" style="margin-right: 12px;">
+                <h3>Notes</h3>
+            </div>
+        </a>
+        <div class="box">
+            <img src="img/book.png" alt="Books">
+            <h3><a href="subject.html?board=<BOARD>&class=<CLASS>&type=books">Books</a></h3>
+        </div>
+        <a href="contact.html">
+            <div class="box">
+                <img src="img/contact-icon.png" alt="Contact">
+                <h3>Contact</h3>
+            </div>
+        </a>
+    </section>
+
+    <!-- Bottom Navbar -->
+    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->
+
+    <!-- Script for handling navbar and dynamic class name -->
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+subject.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header with back button and 'Subjects' title -->
+    <nav class="navbar">
+        <div class="back-button" onclick="window.location.href='home.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass);">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="title">
+            <h2>Subjects</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content: Subjects List -->
+    <section class="content">
+        <div id="subjectContainer" class="subjects-grid"></div>
+    </section>
+
+    <!-- Bottom Navbar -->
+    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->
+
+    <!-- Script for handling navbar and dynamic class name -->
+    <script src="script.js"></script>
+
+    <script>
+        // Get board, class, and type from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const board = urlParams.get('board');
+        const userClass = urlParams.get('class');
+        const type = urlParams.get('type');
+
+        // Set up the back button functionality
+        document.querySelector('.back-button').onclick = function() {
+            window.location.href = `home.html?board=${board}&class=${userClass}`;
+        };
+
+        // Fetch the subjects from the CSV file
+        fetch(`subjects_${board}_${userClass}.csv`)
+            .then(response => response.text())
+            .then(csvData => {
+                const rows = csvData.split('\n');
+                const subjectContainer = document.getElementById('subjectContainer');
+
+                rows.forEach(row => {
+                    const [subject, img] = row.split(',');
+                    if (subject && img) {
+                        const subjectBox = document.createElement('div');
+                        subjectBox.classList.add('box');
+                        subjectBox.innerHTML = `
+                            <img src="${img.trim()}" alt="${subject.trim()}" style="width: 100px; height: 100px;">
+                            <h3>${subject.trim()}</h3>
+                        `;
+                        subjectBox.onclick = function() {
+                            window.location.href = `chapter.html?board=${board}&class=${userClass}&subject=${subject.trim()}&type=${type}`;
+                        };
+                        subjectContainer.appendChild(subjectBox);
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading subjects:', error));
+    </script>
+
+</body>
+</html>

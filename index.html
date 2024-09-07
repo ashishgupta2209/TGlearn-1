@@ -3,59 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>GLearn</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <title>GLearn - Select Board and Class</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Main content area */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Bottom navbar */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+            border-top-left-radius: 27px;
+            border-top-right-radius: 27px;
+            gap: 10px;
+        }
+
+        .navbar select,
+        .navbar button {
+            padding: 10px;
+            font-size: 16px;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .navbar select {
+            color: black;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .navbar button {
+            background-color: #0f94bd;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .navbar button:hover {
+            background-color: #046b8a;
+        }
+
+        #board, #class {
+            border-radius: 18px !important;
+        }
+
+        #alertBox {
+            display: none;
+            color: red;
+            margin-bottom: -2px;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="logo-icon">
-            <img src="img/logo.png" alt="App Logo">
-        </div>
-        <div class="title">
-            <h2>Glearn <br />Class 10</h2>
-        </div>
-        <div class="settings">
-            <i class="fa-solid fa-gear"></i>
-        </div>
-    </nav>
 
+    <!-- Main content -->
+    <div class="content">
+        <!-- Intentionally blank -->
+    </div>
 
-    <section class="content">
-        <div class="box">
-            <img src="img/choose-topic.png" alt="MCQs">
-                <h3>MCQs</h3>
-        </div>
-        <div class="box">
-            <img src="img/idea.png" alt="Solutions">
-            <h3>Solutions</h3>
-        </div>
-        <div class="box">
-            <img src="img/quiz.png" alt="Tests">
-            <h3>Quiz</h3>
-        </div>
-        <div class="box">
-            <img src="img/notes-icon.png" alt="Notes" style="margin-right: 12px;">
-            <h3>Notes</h3>
-        </div>
-        <div class="box">
-            <img src="img/book.png" alt="Books">
-            <h3>Books</h3>
-        </div>
-        <a href="lessons.html"><div class="box">
-            <img src="img/contact-icon.png" alt="contact">
-            <h3>contact</h3>
-        </div></a>
-    </section>
+    <!-- Bottom navbar -->
+    <div class="navbar">
+        <p id="alertBox">Please Select Both!</p>
 
-    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->   
-    <script src="script.js"></script>
+        <!-- Dropdown for choosing board -->
+        <select name="board" id="board">
+            <option value="" disabled selected>Select your board</option>
+            <option value="cbse">CBSE</option>
+            <option value="bseb">BSEB</option>
+        </select>
+
+        <!-- Dropdown for choosing class -->
+        <select name="class" id="class">
+            <option value="" disabled selected>Select your class</option>
+            <option value="10">Class 10</option>
+            <option value="12">Class 12</option>
+        </select>
+
+        <hr style="width: 90%; max-width: 320px; background-color: #ffffff; opacity: 0.7;">
+
+        <!-- Let's Go button -->
+        <button type="button" id="goBtn">Let's Go →</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromSettings = urlParams.get('from'); // Check if coming from settings
+
+            // Get board and class from localStorage
+            const storedBoard = localStorage.getItem('board');
+            const storedClass = localStorage.getItem('class');
+
+            if (storedBoard && storedClass && !fromSettings) {
+                // If board and class are already set and not coming from settings, redirect to home.html
+                window.location.href = `home.html?board=${storedBoard}&class=${storedClass}`;
+            }
+
+            // Pre-select board and class if available
+            if (storedBoard) {
+                document.getElementById('board').value = storedBoard;
+            }
+            if (storedClass) {
+                document.getElementById('class').value = storedClass;
+            }
+
+            // Handle form submission to store the selected board and class
+            document.getElementById('goBtn').addEventListener('click', function () {
+                const selBoard = document.getElementById('board').value;
+                const selClass = document.getElementById('class').value;
+
+                if (selBoard && selClass) {
+                    // Store board and class in localStorage
+                    localStorage.setItem('board', selBoard);
+                    localStorage.setItem('class', selClass);
+
+                    // Redirect to home.html with board and class in URL params
+                    window.location.href = `home.html?board=${selBoard}&class=${selClass}`;
+                } else {
+                    document.getElementById("alertBox").style.display = 'block';
+                }
+            });
+        });
+        
+    </script>
+
 </body>
-
 </html>
