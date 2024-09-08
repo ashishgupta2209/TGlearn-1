@@ -362,3 +362,285 @@ subject.html
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>GLearn - Select Board and Class</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        /* Main content area */
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Bottom navbar */
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+            border-top-left-radius: 27px;
+            border-top-right-radius: 27px;
+            gap: 10px;
+            padding-bottom: 40px;
+        }
+
+        .navbar .dropdown {
+            position: relative;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .navbar .dropdown-button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #fff;
+            color: black;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            position: relative;
+        }
+
+        .navbar .dropdown-button:focus {
+            background-color: #ececec;
+        }
+
+        .navbar .dropdown-menu {
+            display: none;
+            position: absolute;
+            bottom: 100%; /* Position above the button */
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .navbar .dropdown-menu div {
+            padding: 10px;
+            cursor: pointer;
+            color: black;
+        }
+
+        .navbar .dropdown-menu div:hover {
+            background-color: #f4f4f4;
+        }
+
+        .navbar .dropdown-menu.show {
+            display: block;
+        }
+
+        .navbar button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #43d156;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .navbar button:hover {
+            background-color: #ececec;
+        }
+
+        #goBtn {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        #goBtn:hover,
+        #goBtn:active {
+            background-color: #439c4b;
+        }
+
+        #alertBox {
+            display: none;
+            color: red;
+            margin-bottom: -2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main content -->
+    <div class="content">
+        <!-- Intentionally blank -->
+    </div>
+
+    <!-- Bottom navbar -->
+    <div class="navbar">
+        <p id="alertBox">Please Select Both!</p>
+
+        <!-- Dropdown for choosing board -->
+        <div class="dropdown">
+            <button class="dropdown-button" id="boardButton">Select your board</button>
+            <div class="dropdown-menu" id="boardMenu">
+                <div data-value="">Select your board</div>
+                <div data-value="cbse">CBSE</div>
+                <div data-value="bseb">BSEB</div>
+            </div>
+        </div>
+
+        <!-- Dropdown for choosing class -->
+        <div class="dropdown">
+            <button class="dropdown-button" id="classButton">Select your class</button>
+            <div class="dropdown-menu" id="classMenu">
+                <div data-value="">Select your class</div>
+                <div data-value="8">Class 8</div>
+                <div data-value="9">Class 9</div>
+                <div data-value="10">Class 10</div>
+            </div>
+        </div>
+
+        <hr style="width: 90%; max-width: 320px; background-color: #ffffff; opacity: 0.7;">
+
+        <!-- Let's Go button -->
+        <button type="button" id="goBtn">Let's Go</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromSettings = urlParams.get('from'); // Check if coming from settings
+
+            // Get board and class from localStorage
+            const storedBoard = localStorage.getItem('board');
+            const storedClass = localStorage.getItem('class');
+
+            if (storedBoard && storedClass && !fromSettings) {
+                // If board and class are already set and not coming from settings, redirect to home.html
+                window.location.href = `home.html?board=${storedBoard}&class=${storedClass}`;
+            }
+
+            // Pre-select board and class if available
+            if (storedBoard) {
+                document.getElementById('boardButton').textContent = getBoardText(storedBoard);
+                document.getElementById('boardButton').dataset.value = storedBoard;
+            }
+            if (storedClass) {
+                document.getElementById('classButton').textContent = getClassText(storedClass);
+                document.getElementById('classButton').dataset.value = storedClass;
+            }
+
+            // Dropdown button click event
+            document.querySelectorAll('.dropdown-button').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.stopPropagation();  // Prevents closing the dropdown when clicking inside it
+                    closeAllDropdowns();  // Close other dropdowns first
+                    const menuId = this.id.replace('Button', 'Menu');
+                    document.getElementById(menuId).classList.toggle('show');
+                });
+            });
+
+            // Dropdown menu item click event
+            document.querySelectorAll('.dropdown-menu div').forEach(item => {
+                item.addEventListener('click', function () {
+                    const buttonId = this.parentNode.id.replace('Menu', 'Button');
+                    const button = document.getElementById(buttonId);
+                    button.textContent = this.textContent;
+                    button.dataset.value = this.dataset.value;
+                    this.parentNode.classList.remove('show');
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function () {
+                closeAllDropdowns();
+            });
+
+            // Handle form submission to store the selected board and class
+            document.getElementById('goBtn').addEventListener('click', function () {
+                const selBoard = document.getElementById('boardButton').dataset.value;
+                const selClass = document.getElementById('classButton').dataset.value;
+
+                if (selBoard && selClass) {
+                    // Store board and class in localStorage
+                    localStorage.setItem('board', selBoard);
+                    localStorage.setItem('class', selClass);
+
+                    // Redirect to home.html with board and class in URL params
+                    window.location.href = `home.html?board=${selBoard}&class=${selClass}`;
+                } else {
+                    document.getElementById("alertBox").style.display = 'block';
+                }
+            });
+
+            // Function to close all open dropdowns
+            function closeAllDropdowns() {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+
+            function getBoardText(value) {
+                switch(value) {
+                    case 'cbse': return 'CBSE';
+                    case 'bseb': return 'BSEB';
+                    default: return 'Select your board';
+                }
+            }
+
+            function getClassText(value) {
+                switch(value) {
+                    case '8': return 'Class 8';
+                    case '9': return 'Class 9';
+                    case '10': return 'Class 10';
+                    default: return 'Select your class';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

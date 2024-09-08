@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+</head>
+
 <body>
     <!-- Top Navbar -->
     <nav class="navbar">
@@ -28,13 +30,13 @@
     <section class="content">
         <a id="mcqsLink" href="#">
             <div class="box">
-                <img src="img/choose-topic.png" alt="MCQs">
+                <img src="img/mcqs.png" alt="MCQs">
                 <h3>MCQs</h3>
             </div>
         </a>
         <a id="solutionsLink" href="#">
             <div class="box">
-                <img src="img/idea.png" alt="Solutions">
+                <img src="img/solutions.png" alt="Solutions">
                 <h3>Solutions</h3>
             </div>
         </a>
@@ -46,13 +48,13 @@
         </a>
         <a id="notesLink" href="#">
             <div class="box">
-                <img src="img/notes-icon.png" alt="Notes" style="margin-right: 12px;">
+                <img src="img/notes.png" alt="Notes" style="margin-right: 12px;">
                 <h3>Notes</h3>
             </div>
         </a>
         <a id="booksLink" href="#">
             <div class="box">
-                <img src="img/book.png" alt="Books">
+                <img src="img/books.png" alt="Books">
                 <h3>Books</h3>
             </div>
         </a>
@@ -72,7 +74,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const board = urlParams.get('board') || localStorage.getItem('selectedBoard');
-            const userClass = urlParams.get('class') || localStorage.getItem('selectedClass');
+            const userClass = urlParams.get('class') || localStorage.getItem('selectedClass') || 'No class selected';
 
             if (board && userClass) {
                 localStorage.setItem('selectedBoard', board);
@@ -91,19 +93,13 @@
                 // Redirect to index.html if no board and class are set
                 window.location.href = 'index.html';
             }
-
-            // Apply theme based on localStorage
-            if (localStorage.getItem('lightMode') === 'true') {
-                document.getElementById('themeStylesheet').href = 'styleslight.css';
-            }
         });
 
     </script>
-
-    
 
     <!-- Script for handling the bottom navbar -->
     <script src="script.js"></script>
 
 </body>
+
 </html>

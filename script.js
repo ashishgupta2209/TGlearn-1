@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             document.getElementById('bottom-navbar').innerHTML = data;
 
-            // Get board and class from localStorage (set initially in index.html)
+            // Get board, class, and type from URL parameters or localStorage
             const board = localStorage.getItem('selectedBoard');
             const userClass = localStorage.getItem('selectedClass');
+            const type = localStorage.getItem('selectedType');
 
             // Add event listeners to handle navigation clicks
             document.getElementById('home').addEventListener('click', function () {
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('lessons').addEventListener('click', function () {
                 const lastLessonPage = localStorage.getItem('lastLessonPage');
                 if (lastLessonPage && lastLessonPage !== 'home.html') {
-                    window.location.href = `${lastLessonPage}?board=${board}&class=${userClass}`;
+                    window.location.href = `${lastLessonPage}?board=${board}&class=${userClass}&type=${type}`;
                 } else {
                     window.location.href = 'nothinghere.html';
                 }
@@ -45,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
-
 // Bottom navbar things ends here
+
 
 // inspect preventer starts here
 // document.addEventListener('contextmenu', function (e) {

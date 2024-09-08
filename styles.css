@@ -137,6 +137,10 @@ body, p, h1, h2, h3, h4, h5, h6, div {
     margin-bottom: 56px;
 }
 
+.content a {
+    text-decoration: none;
+}
+
 .box {
     background-color: #353535;
     padding: 15px;

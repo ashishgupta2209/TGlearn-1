@@ -47,7 +47,7 @@
 <body>
     <!-- Top Navbar -->
     <nav class="navbar">
-        <div class="back-button" onclick="window.location.href='home.html';">
+        <div class="back-button" id="backBtn">
             <i class="fa-solid fa-chevron-left"></i>
         </div>
         <div class="title">
@@ -72,15 +72,23 @@
         document.addEventListener("DOMContentLoaded", function () {
             const currentBoardClass = document.getElementById('current-board-class');
             const changeBoardClassBtn = document.getElementById('changeBoardClassBtn');
+            const backBtn = document.getElementById('backBtn');
 
             // Display current board and class
             const board = localStorage.getItem('selectedBoard');
             const userClass = localStorage.getItem('selectedClass');
-            currentBoardClass.textContent = `Board: ${board || 'Not set'}, Class: ${userClass || 'Not set'}`;
+            currentBoardClass.textContent = `Board: ${board || 'Not set'}, Class: ${userClass || 'No class selected'}`;
 
             // Change board & class button action
             changeBoardClassBtn.addEventListener('click', function () {
                 window.location.href = 'index.html?from=settings';
+            });
+
+            // Back button redirects to home.html with the selected board and class
+            backBtn.addEventListener('click', function () {
+                const board = localStorage.getItem('selectedBoard') || 'Not set';
+                const userClass = localStorage.getItem('selectedClass') || 'No class selected';
+                window.location.href = `home.html?board=${board}&class=${userClass}`;
             });
         });
     </script>
