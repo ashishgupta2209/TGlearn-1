@@ -58,6 +58,9 @@
             color: black;
             border-radius: 5px;
             border: none;
+            /* Prevent native appearance on mobile/webview */
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .navbar button {
@@ -81,6 +84,9 @@
             color: red;
             margin-bottom: -2px;
         }
+
+        
+        
     </style>
 </head>
 
@@ -100,14 +106,21 @@
             <option value="" disabled selected>Select your board</option>
             <option value="cbse">CBSE</option>
             <option value="bseb">BSEB</option>
+            <option value="icse">ICSE</option>
+            <option value="state">State Board</option>
+            <!-- Add more boards here -->
         </select>
-
+        
         <!-- Dropdown for choosing class -->
         <select name="class" id="class">
             <option value="" disabled selected>Select your class</option>
             <option value="10">Class 10</option>
+            <option value="11">Class 11</option>
             <option value="12">Class 12</option>
+            <option value="9">Class 9</option>
+            <!-- Add more classes here -->
         </select>
+        
 
         <hr style="width: 90%; max-width: 320px; background-color: #ffffff; opacity: 0.7;">
 
