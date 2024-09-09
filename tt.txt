@@ -644,3 +644,103 @@ index.html
 
 </body>
 </html>
+
+\settinghs
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .back-button {
+            cursor: pointer;
+            margin-right: auto;
+        }
+
+        .title {
+            font-size: 24px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .settings-option {
+            background-color: #0f94bd;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 320px;
+        }
+
+        .settings-option:hover {
+            background-color: #046b8a;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="back-button" id="backBtn">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="title">
+            <h2>Settings</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="current-settings">
+            <h3>Current Board and Class</h3>
+            <p id="current-board-class"></p>
+        </div>
+
+        <div class="settings-options">
+            <button id="changeBoardClassBtn" class="settings-option">Change Board & Class</button>
+        </div>
+    </section>
+
+    <!-- Script for handling settings -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentBoardClass = document.getElementById('current-board-class');
+            const changeBoardClassBtn = document.getElementById('changeBoardClassBtn');
+            const backBtn = document.getElementById('backBtn');
+
+            // Display current board and class
+            const board = localStorage.getItem('selectedBoard');
+            const userClass = localStorage.getItem('selectedClass');
+            currentBoardClass.textContent = `Board: ${board || 'Not set'}, Class: ${userClass || 'No class selected'}`;
+
+            // Change board & class button action
+            changeBoardClassBtn.addEventListener('click', function () {
+                window.location.href = 'index.html?from=settings';
+            });
+
+            // Back button redirects to home.html with the selected board and class
+            backBtn.addEventListener('click', function () {
+                const board = localStorage.getItem('selectedBoard') || 'Not set';
+                const userClass = localStorage.getItem('selectedClass') || 'No class selected';
+                window.location.href = `home.html?board=${board}&class=${userClass}`;
+            });
+        });
+    </script>
+</body>
+
+</html>

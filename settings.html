@@ -23,10 +23,11 @@
             align-items: center;
             flex-grow: 1;
             padding: 20px;
+            padding-top: 0px;
         }
 
         .settings-option {
-            background-color: #0f94bd;
+            background-color: #43d156;
             color: white;
             border: none;
             border-radius: 10px;
@@ -34,12 +35,42 @@
             cursor: pointer;
             margin: 10px;
             text-align: center;
-            width: 80%;
-            max-width: 320px;
+            width: 99%;
+            max-width: 900px;
         }
 
         .settings-option:hover {
-            background-color: #046b8a;
+            background-color: #439c4b;
+        }
+
+        .settings-option {
+            font-size: 1.3rem;
+        }
+
+        .current-settings {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: -10px;
+        }
+
+        .current-settings p {
+            font-size: 1.6rem;
+        }
+
+        .board-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .board-info img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .bold-text {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -58,10 +89,13 @@
     <!-- Main Content -->
     <section class="content">
         <div class="current-settings">
-            <h3>Current Board and Class</h3>
-            <p id="current-board-class"></p>
+            <h3><i class="fa-regular fa-user"></i> Your Board and Class</h3>
+            <div class="board-info">
+                <img id="boardImage" src="" alt="Board Image">
+                <p id="current-board-class"></p>
+            </div>
         </div>
-
+        <hr style="width: 90%; max-width: 300px; background-color: #ffffff; opacity: 0.7;">
         <div class="settings-options">
             <button id="changeBoardClassBtn" class="settings-option">Change Board & Class</button>
         </div>
@@ -73,11 +107,33 @@
             const currentBoardClass = document.getElementById('current-board-class');
             const changeBoardClassBtn = document.getElementById('changeBoardClassBtn');
             const backBtn = document.getElementById('backBtn');
+            const boardImage = document.getElementById('boardImage');
 
-            // Display current board and class
+            // Retrieve current board and class
             const board = localStorage.getItem('selectedBoard');
             const userClass = localStorage.getItem('selectedClass');
-            currentBoardClass.textContent = `Board: ${board || 'Not set'}, Class: ${userClass || 'No class selected'}`;
+
+            // Determine board image and display name
+            let formattedBoard = '';
+            let imagePath = '';
+
+            if (board === 'ncert') {
+                formattedBoard = 'NCERT';
+                imagePath = 'img/ncert.png';
+            } else if (board === 'bihar board') {
+                formattedBoard = 'Bihar Board';
+                imagePath = 'img/bihar board.png';
+            } else {
+                formattedBoard = 'Not set';
+                imagePath = '';
+            }
+
+            // Format class for display
+            const formattedClass = userClass ? `Class ${userClass}` : 'No class selected';
+
+            // Set board image and display formatted board and class
+            boardImage.src = imagePath;
+            currentBoardClass.innerHTML = `<span class="bold-text">${formattedBoard}</span>, <span class="bold-text">${formattedClass}</span>`;
 
             // Change board & class button action
             changeBoardClassBtn.addEventListener('click', function () {
