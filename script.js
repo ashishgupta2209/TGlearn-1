@@ -64,3 +64,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// change updated data in localStorage
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentVersion = '1.1.0';
+        const storedVersion = localStorage.getItem('siteVersion');
+
+        if (storedVersion !== currentVersion) {
+            handleDataUpdate(storedVersion, currentVersion);
+            localStorage.setItem('siteVersion', currentVersion);
+        }
+
+        // Additional initialization or setup code
+        updateUserSettings();
+    });
+
+    function handleDataUpdate(oldVersion, newVersion) {
+        if (oldVersion < '1.1.0') {
+            localStorage.removeItem('oldDataKey');
+            updateDataFormat();
+        }
+    }
+
+    function updateDataFormat() {
+        const oldData = JSON.parse(localStorage.getItem('oldDataKey'));
+        if (oldData) {
+            const newData = transformOldDataToNewFormat(oldData);
+            localStorage.setItem('newDataKey', JSON.stringify(newData));
+        }
+    }
+
+    function updateUserSettings() {
+        const userSettings = JSON.parse(localStorage.getItem('userSettings'));
+        if (userSettings) {
+            localStorage.setItem('userSettings', JSON.stringify(userSettings));
+        }
+    }
+
+    function transformOldDataToNewFormat(oldData) {
+        // Implement transformation logic here
+        return oldData; // Example, replace with actual transformation
+    }
+
+
