@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
     <title>GLearn - Select Board and Class</title>
     <style>
         /* Basic reset */
@@ -11,7 +14,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
 
         body {
@@ -42,30 +45,32 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px 10px;
-            border-top-left-radius: 27px;
-            border-top-right-radius: 27px;
+            padding: 20px 1px;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
             gap: 10px;
+            padding-top: 30px;
             padding-bottom: 40px;
         }
 
         .navbar .dropdown {
             position: relative;
-            width: 90%;
-            max-width: 320px;
+            width: 90%; /* Increased width for dropdown container */
+            max-width: 420px; /* Increased max-width */
         }
 
         .navbar .dropdown-button {
-            padding: 10px;
-            font-size: 16px;
+            padding: 10px; /* Adjusted padding for better aesthetics */
+            font-size: 1.4rem;
             background-color: #fff;
             color: black;
-            border-radius: 30px;
+            border-radius: 37px;
             border: none;
             cursor: pointer;
-            text-align: left;
+            text-align: center;
             width: 100%;
             position: relative;
+            font-weight: 660;
         }
 
         .navbar .dropdown-button:focus {
@@ -79,7 +84,7 @@
             left: 0;
             width: 100%;
             background-color: white;
-            border-radius: 5px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 10;
         }
@@ -99,15 +104,15 @@
         }
 
         .navbar button {
-            padding: 10px;
+            padding: 12px; /* Adjusted padding for better aesthetics */
             font-size: 16px;
             background-color: #43d156;
             color: white;
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            width: 90%;
-            max-width: 320px;
+            width: 95%; /* Increased width for button */
+            max-width: 420px; /* Increased max-width */
         }
 
         .navbar button:hover {
@@ -115,8 +120,8 @@
         }
 
         #goBtn {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 900;
         }
 
         #goBtn:hover,
@@ -131,9 +136,7 @@
         }
     </style>
 </head>
-
 <body>
-
     <!-- Main content -->
     <div class="content">
         <!-- Intentionally blank -->
@@ -164,12 +167,13 @@
             </div>
         </div>
 
-        <hr style="width: 90%; max-width: 320px; background-color: #ffffff; opacity: 0.7;">
+        <hr style="width: 90%; max-width: 420px; background-color: #ffffff; opacity: 0.7;">
 
         <!-- Let's Go button -->
         <button type="button" id="goBtn">Let's Go</button>
     </div>
 
+    <!-- JavaScript code for dropdown and button functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
