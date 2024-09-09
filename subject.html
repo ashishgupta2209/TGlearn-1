@@ -6,6 +6,11 @@
     <title>Subjects</title>
     <link rel="stylesheet" href="styles.css"> <!-- Using the same stylesheet as home.html -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .title h2 {
+            font-size: 1.8rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -37,13 +42,23 @@
         const userClass = urlParams.get('class');
         const type = urlParams.get('type');
 
+        // Function to properly format the type
+        function formatType(type) {
+            if (!type) return '';
+            if (type.toLowerCase() === 'mcqs') {
+                return 'MCQs'; // Special case for 'mcqs'
+            } else {
+                return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase(); // Capitalize first letter for other types
+            }
+        }
+
         // Set up the back button functionality
         document.querySelector('.back-button').onclick = function() {
             window.location.href = `home.html?board=${board}&class=${userClass}&type=${type}`;
         };
 
-        // Display the type in the title
-        document.getElementById('typeTitle').textContent = type ? type : '';
+        // Display the formatted type in the title
+        document.getElementById('typeTitle').textContent = formatType(type);
 
         // Store the type in localStorage
         localStorage.setItem('selectedType', type);
