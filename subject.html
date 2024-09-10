@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,48 @@
     <link rel="stylesheet" href="styles.css"> <!-- Using the same stylesheet as home.html -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+       body {
+        padding-top: 140px !important;
+       }
         .title h2 {
             font-size: 1.8rem;
         }
+
+        .spancontainer {
+            display: flex;
+            /* margin-top: -10px; */
+            align-items: center;
+            justify-content: center;
+        }
+        #typeTitle {
+            font-size: 1.6rem;
+            font-weight: 600;
+           
+        }
+        .content {
+            padding-top: 10px !important;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Header with back button and 'Subjects' title -->
     <nav class="navbar">
-        <div class="back-button" onclick="window.location.href='home.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass) + '&type=' + encodeURIComponent(type);">
+        <div class="back-button"
+            onclick="window.location.href='home.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass) + '&type=' + encodeURIComponent(type);">
             <i class="fa-solid fa-chevron-left"></i>
         </div>
         <div class="title">
-            <h2>Subjects - <span id="typeTitle"></span></h2> <!-- Display the type here -->
+            <h2>Subjects</h2> <!-- Display the type here -->
         </div>
     </nav>
-
-    <!-- Main Content: Subjects List -->
-    <section class="content">
-        <div id="subjectContainer" class="subjects-grid"></div>
+    <div class="spancontainer">
+        <span id="typeTitle"></span>
+    </div>
+    <!-- Main Content: Subjects List, using the same structure as home.html -->
+    <section class="content" id="subjectContainer">
+        <!-- Subjects will be populated dynamically here -->
     </section>
 
     <!-- Bottom Navbar -->
@@ -53,7 +76,7 @@
         }
 
         // Set up the back button functionality
-        document.querySelector('.back-button').onclick = function() {
+        document.querySelector('.back-button').onclick = function () {
             window.location.href = `home.html?board=${board}&class=${userClass}&type=${type}`;
         };
 
@@ -73,15 +96,14 @@
                 rows.forEach(row => {
                     const [subject, img] = row.split(',');
                     if (subject && img) {
-                        const subjectBox = document.createElement('div');
-                        subjectBox.classList.add('box'); // Reuse the 'box' class from home.html
+                        const subjectBox = document.createElement('a'); // Use 'a' for consistency with home.html
+                        subjectBox.href = `chapter.html?board=${board}&class=${userClass}&subject=${subject.trim()}&type=${type}`;
                         subjectBox.innerHTML = `
-                            <img src="${img.trim()}" alt="${subject.trim()}" style="width: 100px; height: 100px;">
-                            <h3>${subject.trim()}</h3>
+                            <div class="box"> <!-- Reuse the 'box' class from home.html -->
+                                <img src="${img.trim()}" alt="${subject.trim()}" style="width: 100px; height: 100px;">
+                                <h3>${subject.trim()}</h3>
+                            </div>
                         `;
-                        subjectBox.onclick = function() {
-                            window.location.href = `chapter.html?board=${board}&class=${userClass}&subject=${subject.trim()}&type=${type}`;
-                        };
                         subjectContainer.appendChild(subjectBox);
                     }
                 });
@@ -90,4 +112,5 @@
     </script>
 
 </body>
+
 </html>
