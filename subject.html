@@ -87,7 +87,7 @@
         localStorage.setItem('selectedType', type);
 
         // Fetch the subjects from the CSV file
-        fetch(`subjects_${board}_${userClass}.csv`)
+        fetch(`subjects/subjects_${board}_${userClass}.csv`)
             .then(response => response.text())
             .then(csvData => {
                 const rows = csvData.split('\n');
