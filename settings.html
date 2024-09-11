@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .back-button {
+            cursor: pointer;
+            margin-right: auto;
+        }
+
+        .title {
+            font-size: 1.8rem;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+            padding-top: 0px;
+        }
+
+        .settings-option {
+            background-color: #43d156;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+            text-align: center;
+            width: 99%;
+            max-width: 900px;
+        }
+
+        .settings-option {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .current-settings {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: -10px;
+
+        }
+
+        .current-settings h3 {
+            margin-bottom:10px ;
+        }
+
+        .current-settings  i {
+            margin-right: 10px;
+        }
+        .current-settings p {
+            font-size: 1.25rem;
+        }
+       
+         /* ripple effect css */
+        
+         .ripple-target {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-target .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            pointer-events: none;
+            z-index: 1;
+            /* Ensures ripple appears above content */
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                /* Adjust scaling as needed */
+                opacity: 0;
+            }
+        }
+
+        .icon-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="back-button icon-wrapper" id="backBtn">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        <div class="title">
+            <h2>Settings</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="current-settings">
+            <h3><i class="fa-regular fa-user"></i>Your Board and Class</h3>
+            <p id="current-board-class"></p>
+        </div>
+        <hr style="width: 90%; max-width: 260px; background-color: #ffffff; opacity: 0.7;">
+        <div class="settings-options">
+            <button id="changeBoardClassBtn" class="settings-option ripple-target">Change Board & Class</button>
+        </div>
+    </section>
+
+    <!-- Script for handling settings -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentBoardClass = document.getElementById('current-board-class');
+            const changeBoardClassBtn = document.getElementById('changeBoardClassBtn');
+            const backBtn = document.getElementById('backBtn');
+
+            // Retrieve current board and class
+            const board = localStorage.getItem('selectedBoard');
+            const userClass = localStorage.getItem('selectedClass');
+
+            // Format board and class for display
+            const formattedBoard = board === 'ncert' ? 'NCERT' : board === 'bihar_board' ? 'Bihar Board' : 'Not set';
+            const formattedClass = userClass ? `Class ${userClass}` : 'No class selected';
+
+            // Display formatted board and class
+            currentBoardClass.textContent = `${formattedBoard}, ${formattedClass}`;
+
+            // Change board & class button action
+            changeBoardClassBtn.addEventListener('click', function () {
+                window.location.href = 'index.html?from=settings';
+            });
+
+            // Back button redirects to home.html with the selected board and class
+            backBtn.addEventListener('click', function () {
+                const board = localStorage.getItem('selectedBoard') || 'Not set';
+                const userClass = localStorage.getItem('selectedClass') || 'No class selected';
+                window.location.href = `home.html?board=${board}&class=${userClass}`;
+            });
+        });
+    </script>
+    <!-- ripple effect script -->
+    <script>
+        document.querySelectorAll('.ripple-target').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const ripple = document.createElement('span');
+                const diameter = Math.max(this.clientWidth, this.clientHeight);
+                const radius = diameter / 2;
+
+                ripple.style.width = ripple.style.height = `${diameter}px`;
+                ripple.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
+                ripple.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
+                ripple.classList.add('ripple');
+
+                // Remove previous ripple effect if exists
+                const existingRipple = this.querySelector('.ripple');
+                if (existingRipple) {
+                    existingRipple.remove();
+                }
+
+                // Add new ripple
+                this.appendChild(ripple);
+
+                // Apply animation
+                ripple.style.animation = 'ripple-animation 600ms linear';
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page with Transition Delay</title>
+  <style>
+    /* Fade-out effect for transition */
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to Page 1</h1>
+  <p>Click the button to go to Page 2 after a delay.</p>
+  
+  <!-- Button to go to another page -->
+  <button onclick="delayedRedirect('page2.html')">Go to Page 2</button>
+
+  <script>
+    // Function to delay the redirection
+    function delayedRedirect(url) {
+      // Apply fade-out effect
+      document.body.classList.add('fade-out');
+      
+      // Delay redirection by 2 seconds (2000 milliseconds)
+      setTimeout(function() {
+        window.location.href = url;
+      }, 2000); // 2 seconds delay
+    }
+  </script>
+
+</body>
+</html>
