@@ -98,3 +98,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 });
+
+
+document.querySelectorAll('.icon-wrapper').forEach(icon => {
+    icon.addEventListener('click', function(e) {
+      // Create ripple effect immediately
+      const ripple = document.createElement('span');
+      const diameter = Math.max(this.clientWidth, this.clientHeight);
+      const radius = diameter / 2;
+
+      ripple.style.width = ripple.style.height = `${diameter}px`;
+      ripple.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
+      ripple.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
+      ripple.classList.add('ripple');
+
+      this.appendChild(ripple);
+
+      // Trigger ripple immediately
+      ripple.style.animation = 'ripple-animation 600ms linear';
+
+      // Redirect instantly, no delay
+      window.location.href = 'settings.html';
+    });
+  });

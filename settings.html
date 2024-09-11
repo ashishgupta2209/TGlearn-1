@@ -38,11 +38,7 @@
             width: 99%;
             max-width: 900px;
         }
-
-        .settings-option:hover {
-            background-color: #439c4b;
-        }
-
+        
         .settings-option {
             font-size: 1rem;
             font-weight: 600;
@@ -66,6 +62,30 @@
             font-size: 1.25rem;
         }
        
+         /* ripple effect css */
+        
+         .ripple-target {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple-target .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            pointer-events: none;
+            z-index: 1;
+            /* Ensures ripple appears above content */
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                /* Adjust scaling as needed */
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -88,7 +108,7 @@
         </div>
         <hr style="width: 90%; max-width: 260px; background-color: #ffffff; opacity: 0.7;">
         <div class="settings-options">
-            <button id="changeBoardClassBtn" class="settings-option">Change Board & Class</button>
+            <button id="changeBoardClassBtn" class="settings-option ripple-target">Change Board & Class</button>
         </div>
     </section>
 
@@ -120,6 +140,33 @@
                 const board = localStorage.getItem('selectedBoard') || 'Not set';
                 const userClass = localStorage.getItem('selectedClass') || 'No class selected';
                 window.location.href = `home.html?board=${board}&class=${userClass}`;
+            });
+        });
+    </script>
+    <!-- ripple effect script -->
+    <script>
+        document.querySelectorAll('.ripple-target').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const ripple = document.createElement('span');
+                const diameter = Math.max(this.clientWidth, this.clientHeight);
+                const radius = diameter / 2;
+
+                ripple.style.width = ripple.style.height = `${diameter}px`;
+                ripple.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
+                ripple.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
+                ripple.classList.add('ripple');
+
+                // Remove previous ripple effect if exists
+                const existingRipple = this.querySelector('.ripple');
+                if (existingRipple) {
+                    existingRipple.remove();
+                }
+
+                // Add new ripple
+                this.appendChild(ripple);
+
+                // Apply animation
+                ripple.style.animation = 'ripple-animation 600ms linear';
             });
         });
     </script>

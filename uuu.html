@@ -3,26 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ripple Effect</title>
+  <title>Icon Ripple Effect</title>
   <style>
-    .ripple-button {
+    .icon-wrapper {
       position: relative;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 50%;
       overflow: hidden;
-      padding: 10px 20px;
-      background-color: #6200ea;
-      color: white;
-      border: none;
-      border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
-      outline: none;
     }
 
-    .ripple-button .ripple {
+    .icon-wrapper .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.3);
       transform: scale(0);
+      pointer-events: none;
+      z-index: 1;
       animation: ripple-animation 600ms linear;
     }
 
@@ -32,31 +30,39 @@
         opacity: 0;
       }
     }
+
+    .icon-wrapper i {
+      font-size: 24px;
+      color: #6200ea;
+    }
   </style>
 </head>
 <body>
 
-  <button class="ripple-button">Click Me</button>
+  <div class="icon-wrapper" id="settingsIcon">
+    <i class="fa-solid fa-gear"></i>
+  </div>
 
   <script>
-    document.querySelectorAll('.ripple-button').forEach(button => {
-      button.addEventListener('click', function(e) {
-        const circle = document.createElement('span');
+    document.querySelectorAll('.icon-wrapper').forEach(icon => {
+      icon.addEventListener('click', function(e) {
+        // Create ripple effect immediately
+        const ripple = document.createElement('span');
         const diameter = Math.max(this.clientWidth, this.clientHeight);
         const radius = diameter / 2;
 
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${e.clientX - this.offsetLeft - radius}px`;
-        circle.style.top = `${e.clientY - this.offsetTop - radius}px`;
-        circle.classList.add('ripple');
+        ripple.style.width = ripple.style.height = `${diameter}px`;
+        ripple.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
+        ripple.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
+        ripple.classList.add('ripple');
 
-        const ripple = this.querySelector('.ripple');
+        this.appendChild(ripple);
 
-        if (ripple) {
-          ripple.remove();
-        }
+        // Trigger ripple immediately
+        ripple.style.animation = 'ripple-animation 600ms linear';
 
-        this.appendChild(circle);
+        // Redirect instantly, no delay
+        window.location.href = 'settings.html';
       });
     });
   </script>
