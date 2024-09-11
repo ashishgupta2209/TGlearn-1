@@ -3,68 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Icon Ripple Effect</title>
+  <title>Page with Transition Delay</title>
   <style>
-    .icon-wrapper {
-      position: relative;
-      display: inline-block;
-      padding: 10px;
-      border-radius: 50%;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .icon-wrapper .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.3);
-      transform: scale(0);
-      pointer-events: none;
-      z-index: 1;
-      animation: ripple-animation 600ms linear;
-    }
-
-    @keyframes ripple-animation {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
-
-    .icon-wrapper i {
-      font-size: 24px;
-      color: #6200ea;
+    /* Fade-out effect for transition */
+    body.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
   </style>
 </head>
 <body>
 
-  <div class="icon-wrapper" id="settingsIcon">
-    <i class="fa-solid fa-gear"></i>
-  </div>
+  <h1>Welcome to Page 1</h1>
+  <p>Click the button to go to Page 2 after a delay.</p>
+  
+  <!-- Button to go to another page -->
+  <button onclick="delayedRedirect('page2.html')">Go to Page 2</button>
 
   <script>
-    document.querySelectorAll('.icon-wrapper').forEach(icon => {
-      icon.addEventListener('click', function(e) {
-        // Create ripple effect immediately
-        const ripple = document.createElement('span');
-        const diameter = Math.max(this.clientWidth, this.clientHeight);
-        const radius = diameter / 2;
-
-        ripple.style.width = ripple.style.height = `${diameter}px`;
-        ripple.style.left = `${e.clientX - this.getBoundingClientRect().left - radius}px`;
-        ripple.style.top = `${e.clientY - this.getBoundingClientRect().top - radius}px`;
-        ripple.classList.add('ripple');
-
-        this.appendChild(ripple);
-
-        // Trigger ripple immediately
-        ripple.style.animation = 'ripple-animation 600ms linear';
-
-        // Redirect instantly, no delay
-        window.location.href = 'settings.html';
-      });
-    });
+    // Function to delay the redirection
+    function delayedRedirect(url) {
+      // Apply fade-out effect
+      document.body.classList.add('fade-out');
+      
+      // Delay redirection by 2 seconds (2000 milliseconds)
+      setTimeout(function() {
+        window.location.href = url;
+      }, 2000); // 2 seconds delay
+    }
   </script>
 
 </body>

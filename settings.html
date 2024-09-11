@@ -38,7 +38,7 @@
             width: 99%;
             max-width: 900px;
         }
-        
+
         .settings-option {
             font-size: 1rem;
             font-weight: 600;
@@ -86,13 +86,17 @@
                 opacity: 0;
             }
         }
+
+        .icon-wrapper {
+            position: relative;
+        }
     </style>
 </head>
 
 <body>
     <!-- Top Navbar -->
     <nav class="navbar">
-        <div class="back-button" id="backBtn">
+        <div class="back-button icon-wrapper" id="backBtn">
             <i class="fa-solid fa-chevron-left"></i>
         </div>
         <div class="title">
@@ -170,6 +174,7 @@
             });
         });
     </script>
+    <script src="script.js"></script>
 </body>
 
 </html>

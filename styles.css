@@ -26,6 +26,23 @@ body, p, h1, h2, h3, h4, h5, h6, div {
     user-select: none;         /* Non-prefixed version, currently supported by most browsers */
 }
 
+/* Fade-in on page load */
+body {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+/* Fade-out when leaving the page */
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
 /* Bottom navbar styling starts here */
 
 .bottom-nav {
@@ -183,7 +200,7 @@ body, p, h1, h2, h3, h4, h5, h6, div {
 
 
 .icon-wrapper {
-    position: relative;
+    position: absolute;
     display: inline-block;
     padding: 10px;
     border-radius: 50%;
@@ -194,8 +211,8 @@ body, p, h1, h2, h3, h4, h5, h6, div {
   .icon-wrapper .ripple {
     position: absolute;
     border-radius: 50%;
-    background: rgba(233, 233, 233, 0.493);
-    transform: scale(0);
+    background: rgba(240, 240, 240, 0.3);
+    transform: scale(1);
     pointer-events: none;
     z-index: 1;
     animation: ripple-animation 600ms linear;
@@ -203,7 +220,7 @@ body, p, h1, h2, h3, h4, h5, h6, div {
 
   @keyframes ripple-animation {
     to {
-      transform: scale(4);
+      transform: scale(2);
       opacity: 0;
     }
   }
@@ -212,3 +229,11 @@ body, p, h1, h2, h3, h4, h5, h6, div {
     font-size: 24px;
     color: #ffffff;
   }
+
+  /* Removes blue highlight on clickable elements */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none; /* Prevents text selection */
+    user-select: none; /* Prevents text selection for non-webkit browsers */
+  }
+  

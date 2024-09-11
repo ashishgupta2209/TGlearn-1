@@ -50,9 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // inspect preventer starts here
-// document.addEventListener('contextmenu', function (e) {
-//     e.preventDefault();
-// });
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
 // inspect preventer ends here
 
 // Set class name dynamically
@@ -75,10 +75,7 @@ existingData.updatedValue = 'New Value'; // Example update
 // Save updated data back to local storage
 localStorage.setItem('myData', JSON.stringify(existingData));
 
-
-
-
-
+// carousel
 document.addEventListener('DOMContentLoaded', () => {
     const carouselContainer = document.getElementById('carousel-placeholder');
     if (carouselContainer) {
@@ -99,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
+// ripple
 document.querySelectorAll('.icon-wrapper').forEach(icon => {
     icon.addEventListener('click', function(e) {
       // Create ripple effect immediately
@@ -121,3 +118,29 @@ document.querySelectorAll('.icon-wrapper').forEach(icon => {
       window.location.href = 'settings.html';
     });
   });
+
+
+
+// Fade-in effect when the page is loaded
+window.addEventListener('load', function() {
+    document.body.classList.add('loaded');
+});
+
+// Add fade-out effect when a link is clicked
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevents immediate navigation
+        const href = this.getAttribute('href');
+        document.body.classList.add('fade-out'); // Trigger fade-out
+        
+        setTimeout(() => {
+            window.location.href = href; // Navigate after delay
+        }, 500); // Delay matches the CSS transition time
+    });
+});
+
+
+
+
+
+
