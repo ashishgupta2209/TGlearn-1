@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
        body {
-        padding-top: 140px !important;
+        padding-top: 110px !important;
        }
         .title h2 {
             font-size: 1.8rem;
         }
 
+        .navbar {
+            padding-left:10px !important;
+            padding-block: 22px !important;
+        }
         .spancontainer {
             display: flex;
             /* margin-top: -10px; */
@@ -29,6 +33,11 @@
         .content {
             padding-top: 10px !important;
         }
+
+        .icon-wrapper {
+            position: relative !important;
+            width: 47px;
+        }
     </style>
 </head>
 
@@ -36,9 +45,9 @@
 
     <!-- Header with back button and 'Subjects' title -->
     <nav class="navbar">
-        <div class="back-button"
+        <div class="back-button icon-wrapper"
             onclick="window.location.href='home.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass) + '&type=' + encodeURIComponent(type);">
-            <i class="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-arrow-left"></i>
         </div>
         <div class="title">
             <h2>Subjects</h2> <!-- Display the type here -->
@@ -87,7 +96,7 @@
         localStorage.setItem('selectedType', type);
 
         // Fetch the subjects from the CSV file
-        fetch(`subjects/subjects_${board}_${userClass}.csv`)
+        fetch(`Subjects/subjects_${board}_${userClass}.csv`)
             .then(response => response.text())
             .then(csvData => {
                 const rows = csvData.split('\n');

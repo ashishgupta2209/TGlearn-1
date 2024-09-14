@@ -115,7 +115,7 @@
             z-index: 10;
         }
 
-        .navbar .dropdown-menu div{
+        .navbar .dropdown-menu div {
             padding: 10px;
             cursor: pointer;
             color: black;
@@ -126,10 +126,11 @@
             /* Center contents */
         }
 
-        .navbar .dropdown-menu div:hover{
+        .navbar .dropdown-menu div:hover {
             background-color: #ececec;
             border-radius: 12px;
         }
+
         .navbar .dropdown-menu div img,
         .navbar .dropdown-menu div i {
             margin-right: 8px;
@@ -191,6 +192,15 @@
                 /* Adjust scaling as needed */
                 opacity: 0;
             }
+        }
+
+        /* Removes blue highlight on clickable elements */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            /* Prevents text selection */
+            user-select: none;
+            /* Prevents text selection for non-webkit browsers */
         }
     </style>
 </head>
