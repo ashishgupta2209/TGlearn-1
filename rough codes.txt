@@ -2241,3 +2241,319 @@ chaapter.html
 </body>
 
 </html>
+
+
+mcqs.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQs</title>
+    <style>
+        /* Debugging styles for visibility */
+        body {
+            padding-top: 110px !important;
+            background-color: black !important; /* Force contrasting background */
+            color: white !important; /* Force text to white */
+        }
+
+        .mcq-container {
+            margin-top: 20px;
+            background-color: lightgray !important; /* Force container background */
+            color: black !important; /* Force text inside container to black */
+            padding: 20px;
+            min-height: 300px; /* Force minimum height */
+            display: block !important; /* Ensure the container is displayed */
+            visibility: visible !important; /* Ensure the container is visible */
+        }
+
+        .question {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .option {
+            margin: 5px 0;
+            color: darkblue;
+        }
+
+        .icon-wrapper {
+            position: relative !important;
+            width: 47px;
+        }
+
+        /* Debugging outline for visibility */
+        * {
+            outline: 1px solid red; /* Force outline around every element */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with back button and 'MCQs' title -->
+    <nav class="navbar">
+        <div class="back-button icon-wrapper"
+            onclick="window.history.back();">
+            <i class="fa-solid fa-arrow-left"></i>
+        </div>
+        <div class="title">
+            <h2>MCQs</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content: MCQs List -->
+    <section class="mcq-container" id="mcqContainer">
+        <!-- MCQs will be populated dynamically here -->
+    </section>
+
+    <script>
+        // Get the board, class, subject, and chapter from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const board = urlParams.get('board');
+        const userClass = urlParams.get('class');
+        const subject = urlParams.get('subject');
+        const chapter = urlParams.get('chapter');
+
+        // CSV file path based on the parameters
+        const csvFilePath = `MCQs/mcqs_${board}_${userClass}_${subject}_${chapter}.csv`;
+
+        // Fetch and display the MCQs
+        fetch(csvFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                const rows = csvData.split('\n');
+                const mcqContainer = document.getElementById('mcqContainer');
+
+                rows.forEach((row, index) => {
+                    const [question, optionA, optionB, optionC, optionD, correctAnswer] = row.split(',');
+
+                    if (question && optionA && optionB && optionC && optionD) {
+                        // Create MCQ element
+                        const mcqElement = document.createElement('div');
+                        mcqElement.classList.add('mcq');
+
+                        mcqElement.innerHTML = `
+                            <div class="question">${index + 1}. ${question.trim()}</div>
+                            <div class="options">
+                                <div class="option">A. ${optionA.trim()}</div>
+                                <div class="option">B. ${optionB.trim()}</div>
+                                <div class="option">C. ${optionC.trim()}</div>
+                                <div class="option">D. ${optionD.trim()}</div>
+                            </div>
+                        `;
+
+                        mcqContainer.appendChild(mcqElement);
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading MCQs:', error));
+    </script>
+
+</body>
+</html>
+
+
+mcqws
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>MCQs</title>
+    <style>
+        /* General Styles */
+        body {
+            padding-top: 110px;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .back-button {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .back-button:hover {
+            color: #ccc;
+        }
+
+        /* MCQ Container Styles */
+        .mcq-container {
+            margin: 20px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .mcq-section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .question {
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .option {
+            margin: 5px 0;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+
+        .option.correct {
+            background-color: #d4edda;
+        }
+
+        .option.incorrect {
+            background-color: #f8d7da;
+        }
+
+        .option.selected.correct {
+            background-color: #c3e6cb;
+        }
+
+        .option.selected.incorrect {
+            background-color: #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with back button and 'MCQs' title -->
+    <nav class="navbar">
+        <div class="back-button" onclick="goBack();">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </div>
+        <div class="title">
+            <h2>MCQs</h2>
+        </div>
+    </nav>
+
+    <!-- Main Content: MCQs List -->
+    <section class="mcq-container" id="mcqContainer">
+        <!-- MCQs will be populated dynamically here -->
+    </section>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get URL parameters
+        const board = getUrlParam('board');
+        const userClass = getUrlParam('class');
+        const subject = getUrlParam('subject');
+        const chapter = getUrlParam('chapter');
+        const type = getUrlParam('type');
+        const page = getUrlParam('page'); // Get the page parameter for back navigation
+
+        // Function to format URL for CSV
+        function formatCsvUrl(type, board, userClass, subject, chapter) {
+            return `${type}/${type.toLowerCase()}_${board}_${userClass}_${subject}_${chapter}.csv`;
+        }
+
+        // Function to handle back button
+        function goBack() {
+            window.location.href = page || `chapter.html?board=${board}&class=${userClass}&subject=${subject}&type=${type}&page=${encodeURIComponent(window.location.href)}`;
+        }
+
+        // Load MCQs from CSV
+        function loadMCQs() {
+            const csvUrl = formatCsvUrl('mcqs', board, userClass, subject, chapter);
+            fetch(csvUrl)
+                .then(response => response.text())
+                .then(csvData => {
+                    const rows = csvData.split('\n');
+                    const mcqContainer = document.getElementById('mcqContainer');
+                    
+                    rows.forEach((row, index) => {
+                        const [question, optionA, optionB, optionC, optionD, correctOption] = row.split(',');
+
+                        if (question && optionA && optionB && optionC && optionD) {
+                            const mcqSection = document.createElement('div');
+                            mcqSection.className = 'mcq-section';
+                            mcqSection.innerHTML = `
+                                <div class="question">Q${index + 1}. ${question.trim()}</div>
+                                <div class="options">
+                                    <div class="option" data-correct="${correctOption.trim()}" data-option="a">${optionA.trim()}</div>
+                                    <div class="option" data-correct="${correctOption.trim()}" data-option="b">${optionB.trim()}</div>
+                                    <div class="option" data-correct="${correctOption.trim()}" data-option="c">${optionC.trim()}</div>
+                                    <div class="option" data-correct="${correctOption.trim()}" data-option="d">${optionD.trim()}</div>
+                                </div>
+                            `;
+                            mcqContainer.appendChild(mcqSection);
+                        }
+                    });
+
+                    // Add event listeners for MCQ options
+                    document.querySelectorAll('.option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            const parent = this.parentNode;
+                            const correctOption = parent.querySelector(`.option[data-option="${this.dataset.correct}"]`);
+
+                            parent.querySelectorAll('.option').forEach(opt => {
+                                opt.classList.remove('selected', 'correct', 'incorrect');
+                            });
+
+                            this.classList.add('selected');
+                            if (this.dataset.option === this.dataset.correct) {
+                                this.classList.add('correct');
+                            } else {
+                                this.classList.add('incorrect');
+                                correctOption.classList.add('correct');
+                            }
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading MCQs:', error));
+        }
+
+        // Load MCQs when the page loads
+        loadMCQs();
+    </script>
+</body>
+</html>

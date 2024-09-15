@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapters</title>
     <link rel="stylesheet" href="styles.css"> <!-- General styles for navbar and body -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         body {
             padding-top: 110px !important;
@@ -56,12 +56,11 @@
         }
 
         .chapter-box {
-            cursor: pointer; /* Make chapter boxes clickable */
-            position: relative; /* Ensure ripple is positioned correctly */
-            overflow: hidden; /* Hide overflow to contain the ripple effect */
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Ripple effect */
         .ripple-chapter {
             position: absolute;
             border-radius: 50%;
@@ -79,13 +78,10 @@
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Header with back button and 'Chapters' title -->
     <nav class="navbar">
-        <div class="back-button icon-wrapper"
-            onclick="window.location.href='subject.html?board=' + encodeURIComponent(board) + '&class=' + encodeURIComponent(userClass) + '&type=' + encodeURIComponent(type);">
+        <div class="back-button icon-wrapper" onclick="goBack();">
             <i class="fa-solid fa-arrow-left"></i>
         </div>
         <div class="title">
@@ -97,47 +93,37 @@
         <span id="subjectTitle"></span>
     </div>
 
-    <!-- Main Content: Chapters List -->
     <section class="chapter-container" id="chapterContainer">
         <!-- Chapters and sections will be populated dynamically here -->
     </section>
 
-    <!-- Bottom Navbar -->
-    <div id="bottom-navbar"></div> <!-- Placeholder for the navbar -->
+    <div id="bottom-navbar"></div>
 
-    <!-- Script for handling navbar and dynamic chapter listing -->
     <script src="script.js"></script>
 
     <script>
-        // Get board, class, subject, and type from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const board = urlParams.get('board');
         const userClass = urlParams.get('class');
         let subject = urlParams.get('subject');
         const type = urlParams.get('type');
+        const page = urlParams.get('page'); // New parameter to track the previous page
 
-        // Handle spaces in subject name (replace with underscores for file matching)
         subject = subject.replace(/\s+/g, '_');
 
-        // Set up the back button functionality
-        document.querySelector('.back-button').onclick = function () {
-            window.location.href = `subject.html?board=${board}&class=${userClass}&type=${type}`;
-        };
+        function goBack() {
+            window.location.href = page || `subject.html?board=${board}&class=${userClass}&type=${type}`;
+        }
 
-        // Display the subject name in the title
-        document.getElementById('subjectTitle').textContent = subject.replace(/_/g, ' '); // Show subject name with spaces
+        document.querySelector('.back-button').onclick = goBack;
 
-        // Fetch the chapters from the CSV file
+        document.getElementById('subjectTitle').textContent = subject.replace(/_/g, ' ');
+
         const csvFilePath = `Chapters/chapters_${board}_${userClass}_${subject}.csv`;
-        console.log(`Fetching chapters from: ${csvFilePath}`); // Debug: log the file path
+        console.log(`Fetching chapters from: ${csvFilePath}`);
 
         fetch(csvFilePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.text();
-            })
+            .then(response => response.text())
             .then(csvData => {
                 const rows = csvData.split('\n');
                 const chapterContainer = document.getElementById('chapterContainer');
@@ -147,70 +133,59 @@
                     const [sectionOrId, name] = row.split(',', 2);
 
                     if (sectionOrId.toLowerCase() === 'section' && name) {
-                        // This is a section header (e.g., "Varnika", "Godhuli")
                         const sectionBox = document.createElement('div');
                         sectionBox.className = 'section-container';
                         sectionBox.innerHTML = `<h3>${name.trim()}</h3>`;
                         chapterContainer.appendChild(sectionBox);
-                        currentSection = sectionBox; // Set this as the current section container
+                        currentSection = sectionBox;
                     } else if (name) {
-                        // This is a chapter under the current section
                         const chapterBox = document.createElement('div');
                         chapterBox.className = 'chapter-box';
-                        chapterBox.innerHTML = `<h4>${sectionOrId.trim()} ${name.trim()}</h4><i class="fa-solid fa-chevron-right"></i>`; // Add the icon here
-                        chapterBox.dataset.page = `${type}.html`; // Store the type in a data attribute
+                        chapterBox.innerHTML = `<h4>${sectionOrId.trim()} ${name.trim()}</h4><i class="fa-solid fa-chevron-right"></i>`;
+                        chapterBox.dataset.page = `${type}.html`;
+                        chapterBox.dataset.chapter = name.trim();
                         if (currentSection) {
-                            currentSection.appendChild(chapterBox); // Add to the current section
+                            currentSection.appendChild(chapterBox);
                         } else {
-                            chapterContainer.appendChild(chapterBox); // Add directly if no section
+                            chapterContainer.appendChild(chapterBox);
                         }
                     }
                 });
 
-                // Add click event listeners to chapter boxes with ripple effect
                 document.querySelectorAll('.chapter-box').forEach(box => {
                     box.addEventListener('click', function (e) {
-                        // Create ripple element
                         const ripple = document.createElement('span');
                         ripple.classList.add('ripple-chapter');
 
-                        // Append the ripple to the clicked element (chapter-box)
                         this.appendChild(ripple);
 
-                        // Get the size of the element
                         const diameter = Math.max(this.clientWidth, this.clientHeight);
                         ripple.style.width = ripple.style.height = `${diameter}px`;
 
-                        // Get the click coordinates
                         const rect = this.getBoundingClientRect();
                         const x = e.clientX - rect.left - diameter / 2;
                         const y = e.clientY - rect.top - diameter / 2;
 
-                        // Position the ripple
                         ripple.style.left = `${x}px`;
                         ripple.style.top = `${y}px`;
 
-                        // Remove ripple after animation ends
                         ripple.addEventListener('animationend', () => {
                             ripple.remove();
                         });
 
-                        // Navigate to the selected chapter page after ripple effect
                         const pageType = this.dataset.page;
+                        const chapter = this.dataset.chapter;
                         setTimeout(() => {
-                            window.location.href = `${pageType}?board=${board}&class=${userClass}&subject=${subject}`;
-                        }, 400); // Delay navigation to allow the ripple effect to show
+                            window.location.href = `${pageType}?board=${board}&class=${userClass}&subject=${subject}&chapter=${chapter}&page=${encodeURIComponent(window.location.href)}`;
+                        }, 400);
                     });
                 });
             })
             .catch(error => console.error('Error loading chapters:', error));
 
-        // Track the current chapter page URL
         localStorage.setItem('lastPage', window.location.href);
-        // Store subject in localStorage
-        localStorage.setItem('selectedSubject', subject.replace(/_/g, ' ')); // Store subject with spaces
+        localStorage.setItem('selectedSubject', subject.replace(/_/g, ' '));
     </script>
 
 </body>
-
 </html>
